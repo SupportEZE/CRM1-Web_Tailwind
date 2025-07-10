@@ -45,7 +45,7 @@
             "allowedCommonJsDependencies": [
               "leaflet","apexcharts","sweetalert","sweetalert2","inputmask","filepond","moment","intl-tel-input","dropzone"
               ],
-            "outputPath": "preview",
+            "outputPath": "docs",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
