@@ -37,8 +37,8 @@ jobs:
       - name: ❌ Skip unit tests
         run: echo "Skipping unit tests for now"
 
-      - name: 🏗️ Build Angular App with baseHref
-        run: npm run build -- --configuration=production --base-href=/CRM1-Web_Tailwind/
+      - name: 🏗️ Build Angular App
+        run: npm run build -- --configuration=production
 
 
       - name: 📦 Upload Build Artifact
