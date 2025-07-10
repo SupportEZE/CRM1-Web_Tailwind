@@ -37,10 +37,10 @@ jobs:
         run: echo "Skipping unit tests for now"
 
       - name: 🏗️ Build Angular App
-        run: |
-          npm run build -- --configuration=production
-          echo "✅ Build complete. Output directory contents:"
-          ls -la preview
+        run: npm run build -- --configuration=production
+
+      - name: 🧾 Check contents of build folder
+        run: ls -la preview
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -48,5 +48,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: preview
           publish_branch: gh-pages
-          enable_jekyll: false
+          force_orphan: true           # 👈 ensure new branch is created
+          enable_jekyll: false         # 👈 disables Jekyll processing (needed for SPAs)
 
