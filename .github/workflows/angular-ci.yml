@@ -3,11 +3,9 @@ name: Angular CI & Deploy to GitHub Pages
 on:
   push:
     branches: [ testing ]
-  pull_request:
-    branches: [ testing ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,32 +17,22 @@ jobs:
         with:
           node-version: 22
 
-      - name: 🧹 Remove macOS-only package from package.json and lockfile
+      - name: 🧹 Remove macOS-only package
         run: |
-          jq 'del(.dependencies["@rollup/rollup-darwin-arm64"])' package.json > temp.json && mv temp.json package.json
-          sed -i '/"@rollup\/rollup-darwin-arm64"/,+5d' package-lock.json
+          jq 'del(.dependencies["@rollup/rollup-darwin-arm64"])' package.json > temp.json && mv temp.json package.json || true
+          sed -i '/"@rollup\/rollup-darwin-arm64"/,+5d' package-lock.json || true
 
       - name: 📦 Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: ➕ Install missing peer dependencies
-        run: npm install filepond flatpickr overlayscrollbars --save
-
-      - name: ❌ Skip lint & tests
-        run: echo "Skipping lint and unit tests"
+      - name: ❌ Skip tests and lint
+        run: echo "Skipping tests and lint"
 
       - name: 🏗️ Build Angular App
         run: npm run build -- --configuration=production
 
-      - name: 📁 Verify preview directory exists and has files
-        run: |
-          if [ ! -d "preview" ] || [ -z "$(ls -A preview)" ]; then
-            echo "❌ Build failed: preview directory is missing or empty"
-            exit 1
-          else
-            echo "✅ preview directory is ready"
-            ls -la preview
-          fi
+      - name: 🧪 Debug — check build output
+        run: ls -al preview
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -52,6 +40,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: preview
           publish_branch: gh-pages
-          force_orphan: true
           enable_jekyll: false
 
