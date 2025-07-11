@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      artifact-name: ${{ steps.upload.outputs.artifact-name }}
 
     steps:
       - name: 📥 Checkout code
@@ -42,7 +40,7 @@ jobs:
         run: rm -rf preview
 
       - name: 🏗️ Build Angular App
-        run: npm run build -- --configuration=production --base-href=/CRM1-Web_Tailwind/
+        run: npm run build -- --configuration=production
 
       - name: 📦 Upload Build Artifact
         id: upload
@@ -62,10 +60,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: angular-build
-          path: build
+          path: build/preview
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
+          publish_dir: build/preview
