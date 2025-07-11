@@ -87,8 +87,8 @@
                 }
               ],
               "outputHashing": "all"
-              "baseHref": "/"
-              "deployUrl": "/"
+              "baseHref": "/CRM1-Web_Tailwind/"
+              "deployUrl": "/CRM1-Web_Tailwind/"
             },
             "development": {
               "optimization": false,
