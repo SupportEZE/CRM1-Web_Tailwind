@@ -1,1 +1,0 @@
-import{ka as n}from"./chunk-N26RWG4S.js";var e=class r{constructor(){}maskValue(t){return!t||t.length<=4?t:"X".repeat(t.length-4)+t.slice(-4)}static \u0275fac=function(o){return new(o||r)};static \u0275prov=n({token:r,factory:r.\u0275fac,providedIn:"root"})};export{e as a};
